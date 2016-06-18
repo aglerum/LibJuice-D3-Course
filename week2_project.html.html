@@ -96,7 +96,7 @@ Add colors and labels to nodes. Nodes can have any shape explained in this lesso
                 .attr("transform", "translate(" + (width - margin.left) * .5 + "," + (height + margin.top) * .5 + ")");
 
         // Load and bind the data
-        d3.csv("etd-subjects-2002.csv", type, function (error, data) {
+        d3.csv("data/etd-subjects-2012.csv", type, function (error, data) {
             if (error) throw error;
 
             var g = svg.selectAll(".arc")
