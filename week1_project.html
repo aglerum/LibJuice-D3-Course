@@ -102,7 +102,7 @@ Show values on the x-axis, and categories on the y-axis. Make the x-axis a linea
     // Values
     var x = d3.scale.linear()
             .domain([0, d3.max(data, function(d) { return d.Quantity; })])
-            .range([0, width]);
+            .range([0, width - 20]);
 
     // Categories
     var y = d3.scale.ordinal()
@@ -167,7 +167,7 @@ Show values on the x-axis, and categories on the y-axis. Make the x-axis a linea
             .attr("class", "numbers")
             .attr("x", function(d) { return x(d.Quantity) - 30; } )
             .attr("y", function(d) { return y(d.fruits) + barHeight * .25; })
-            .attr("dx", "2em")
+            .attr("dx", ".35em")
             .attr("dy", "1.6em")
             .text(function(d) { return d.Quantity ; });
 
