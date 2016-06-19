@@ -10,7 +10,7 @@ http://htmlpreview.github.io/?https://github.com/aglerum/LibJuice-D3-Course/blob
 
 ### Week 1 Assignment Preview
 
-_Update notice:_ Corrected typo in header on June 18, 2016.
+_Update notice:_ Corrected typo in header on June 18, 2016. Per Dr. Buchel's advice, edited var x.range and also adjusted svg:text @dx.
 
 http://htmlpreview.github.io/?https://github.com/aglerum/LibJuice-D3-Course/blob/master/week1_project.html
 
