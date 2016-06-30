@@ -20,4 +20,4 @@ http://htmlpreview.github.io/?https://github.com/aglerum/LibJuice-D3-Course/blob
 
 ### Week 3 Assignment Preview
 
-http://htmlpreview.github.io/?https://github.com/aglerum/LibJuice-D3-Course/week3_project.html
+http://htmlpreview.github.io/?https://github.com/aglerum/LibJuice-D3-Course/blob/master/week3_project.html
