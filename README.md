@@ -19,6 +19,6 @@ http://htmlpreview.github.io/?https://github.com/aglerum/LibJuice-D3-Course/blob
 http://htmlpreview.github.io/?https://github.com/aglerum/LibJuice-D3-Course/blob/master/week2_project.html
 
 ### Week 3 Assignment Preview
-_Note:_ http://htmlpreview.github.io/? did not work with this assignment.
+_Note:_ http://htmlpreview.github.io/? did not work with this assignment, so I loaded the project on my FSU web server.
 
-http://htmlpreview.github.io/?https://github.com/aglerum/LibJuice-D3-Course/blob/master/week3_project.html
+http://myweb.fsu.edu/aglerum/LibJuice-D3-Course/week3_project.html
