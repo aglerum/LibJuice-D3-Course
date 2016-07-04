@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!-- Visual Analytics with D3.js: Assignment 4 Beta - WORK IN PROGRESS!
+Last updated by Margaret Anne Glerum on July 4, 2016.
+This data visualization was modelled after Mike Bostock's Circle Packing: https://bl.ocks.org/mbostock/4063530
+
+Instructions: Choose one of two options for this assignment:
+
+1) Take any of the visualizations that you developed last week and add at least two interactions to it. The first interaction --- a tooltip with mouseover event. The second one can be sorting, filtering (I did not explain it but you can do it), zooming or animating;
+
+2) Make a dashboard using Crossfilter and DC.js. The dashboard may include as little as only 2 graphs. -->
+
+<head>
+    <meta charset="utf-8">
+    <title>ETD Subjects Pack Layout</title>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+</head>
+
+
+<style>
+
+#circle-chart {
+    position: relative;
+    left: 100px;
+}
+
+h1 {
+    position: relative;
+    left: 100px;
+    padding-top: 20px;
+    text-align: left;
+}
+
+circle {
+    fill-opacity: .5;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+text {
+    font: 10px sans-serif;
+}
+
+</style>
+<body>
+
+<script>
+
+    var margin = {top: 50, right: 50, bottom: 50, left: 50},
+            width = 940 - margin.left - margin.right,
+            height = 940 - margin.top - margin.bottom;
+
+
+    d3.select("body").append("div")
+            .attr("id", "circle-chart")
+            .attr('width', width + margin.left + margin.right)
+            .attr('height', height + margin.top + margin.bottom);
+
+    d3.select("#circle-chart").append("h1")
+            .text('Theses and Dissertations Subjects: 2003 - 2012');
+
+    var diameter = width;
+
+    var format = d3.format(",d");
+
+    var color = d3.scale.ordinal()
+                    .range(['#66c2a5','#fc8d62','#8da0cb','#e78ac3','#a6d854']);
+
+    var pack = d3.layout.pack()
+            .size([diameter - 4, diameter - 4])
+            .value(function(d) { return d.size; });
+
+    var svg = d3.select("#circle-chart").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", "translate(2,2)");
+
+    d3.json("etd-subjects-2003-2012.json", function(error, root) {
+        if (error) throw error;
+
+        var node = svg.datum(root).selectAll(".node")
+                .data(pack.nodes)
+                .enter().append("g")
+                .attr("class", function(d) { return d.children ? "node" : "leaf node"; })
+                .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+        node.append("title")
+                .text(function(d) { return d.name + (d.children ? "" : " had " + format(d.size) + " instances"); });
+
+        node.append("circle")
+                .attr("r", function(d) { return d.r; })
+                .style("fill", function(d,i) { return color(d.name); });
+    });
+
+    d3.select(self.frameElement).style("height", diameter + "px");
+
+</script>
