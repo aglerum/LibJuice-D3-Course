@@ -5,7 +5,7 @@ Repository for the Library Juice course, "Visual Analytics with D3" taught by Ol
 
 ## Course Portfolio
 
-http://myweb.fsu.edu/aglerum/LibJuice-D3-Course/portfolio.html
+http://htmlpreview.github.io/?https://github.com/aglerum/LibJuice-D3-Course/blob/master/portfolio.html
 
 ### Week 1 Assignment Preview
 
