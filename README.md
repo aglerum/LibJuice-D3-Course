@@ -20,5 +20,6 @@ http://htmlpreview.github.io/?https://github.com/aglerum/LibJuice-D3-Course/blob
 
 ### Week 3 Assignment Preview
 _Note:_ http://htmlpreview.github.io/? did not work with this assignment, so I loaded the project on my FSU web server.
+_Update notice:_ Per Dr. Buchel's advice, added .style("fill-opacity", .5) to the counties groups on July 4, 2016.
 
 http://myweb.fsu.edu/aglerum/LibJuice-D3-Course/week3_project.html
