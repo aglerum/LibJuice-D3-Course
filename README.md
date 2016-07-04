@@ -23,3 +23,8 @@ _Note:_ http://htmlpreview.github.io/? did not work with this assignment, so I l
 _Update notice:_ Per Dr. Buchel's advice, added .style("fill-opacity", .5) to the counties groups on July 4, 2016.
 
 http://myweb.fsu.edu/aglerum/LibJuice-D3-Course/week3_project.html
+
+### Week 4 Assignment Preview -- WORK IN PROGRESS!
+_Note:_ http://htmlpreview.github.io/? did not work with this assignment, so I loaded the project on my FSU web server. This project is not yet complete. The tool tips and zoom functions are solely browser-based and not intentionally coded. Goals for this project are filters to display the data by college, department, or year.
+
+http://myweb.fsu.edu/aglerum/LibJuice-D3-Course/week4_project_beta.html
