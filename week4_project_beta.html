@@ -75,7 +75,7 @@ text {
             .append("g")
             .attr("transform", "translate(2,2)");
 
-    d3.json("etd-subjects-2003-2012.json", function(error, root) {
+    d3.json("data/etd-subjects-2003-2012.json", function(error, root) {
         if (error) throw error;
 
         var node = svg.datum(root).selectAll(".node")
