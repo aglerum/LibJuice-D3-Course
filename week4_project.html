@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<!--
+<!-- Visual Analytics with D3.js: Assignment 4
+Last updated by Margaret Anne Glerum on July 12, 2016.
+This data visualization was modelled after Mike Bostock's Circle Packing: https://bl.ocks.org/mbostock/4063530 and
+Zoomable Pack Layout: https://bl.ocks.org/mbostock/7607535
+
+Instructions: Choose one of two options for this assignment:
+
+1) Take any of the visualizations that you developed last week and add at least two interactions to it. The first
+interaction --- a tooltip with mouseover event. The second one can be sorting, filtering (I did not explain it but you
+can do it), zooming or animating;
+
+2) Make a dashboard using Crossfilter and DC.js. The dashboard may include as little as only 2 graphs. -->
+
+<meta charset="utf-8">
+<style>
+
+    #info {
+        position: relative;
+        left: 0;
+        margin-right: 50px;
+        text-align: left;
+    }
+
+    #chart {
+        float: left;
+        padding-right: 30px;
+    }
+
+    circle {
+
+        stroke-width: 1px;
+    }
+
+    .node {
+        cursor: pointer;
+    }
+
+    .node:hover {
+        stroke: #000;
+        stroke-width: 2px;
+    }
+
+    .node_leaf {
+        fill: white;
+    }
+
+    .label {
+        font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+        text-anchor: middle;
+        text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+    }
+
+    .label,
+    .node_root,
+    .node_leaf {
+        pointer-events: none;
+    }
+
+    .d3-tip {
+        line-height: 1;
+        font-weight: bold;
+        padding: 8px;
+        background: #3182bd;
+        color: #fff;
+        border-radius: 5px;
+    }
+
+    /* Creates a small triangle extender for the tooltip */
+    .d3-tip:after {
+        box-sizing: border-box;
+        display: inline;
+        font-size: 10px;
+        width: 100%;
+        line-height: 1;
+        color: #000;
+        content: "\25BC";
+        position: absolute;
+        text-align: center;
+    }
+
+    /* Style northward tooltips differently */
+    .d3-tip.n:after {
+        margin: -1px 0 0 0;
+        top: 100%;
+        left: 0;
+    }
+
+</style>
+<body>
+<div id="chart"></div>
+<div id="info">
+<h1>Theses and Dissertations Subjects: 2003 - 2012</h1>
+<p class="summary">The largest circles represent subjects found in Electronic Theses and Dissertation (ETD) descriptions
+    from 2003-2012. The circles within the subjects represent the colleges associated with the ETDs having those
+    subjects. The circles within the colleges are departmentsts, and finally, inside the departments are the years in
+    which the subject found. The size of the "years" circle corresponds to how many subjects were found in that year,
+    in that department, in that college. Therefore, the size of the subject circles reflect the instances of subject
+    found in ETD descriptions from 2003-2012.</p>
+<p class="instructions"><span style="font-style: italic">Instructions:</span> Hover over the circle to highlight. Click on the circle to zoom in then out.</p>
+</div>
+<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript" src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<script>
+
+    var margin = 20,
+            diameter = 600;
+
+    var color = d3.scale.linear()
+            .domain([-1, 5])
+            .range(["#f7fcf5", "#3182bd"])
+            .interpolate(d3.interpolateHcl);
+
+    var pack = d3.layout.pack()
+            .padding(2)
+            .size([diameter - margin, diameter - margin])
+            .value(function (d) {
+                return d.size;
+            });
+
+    var svg = d3.select("#chart").append("svg")
+            .attr("width", diameter)
+            .attr("height", diameter)
+            .style("margin-left", 50)
+            .append("g")
+            .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+
+    //Set up tooltip.
+    var tip = d3.tip()
+            .attr("class", "d3-tip")
+            .offset([-10, 0])
+            .html("Link tooltip")
+            .html(function (d) {
+                return d.name;
+            });
+
+    svg.call(tip);
+
+    d3.json("data/etd-subjects-2003-2012.json", function (error, root) {
+        if (error) throw error;
+
+        var focus = root,
+                nodes = pack.nodes(root),
+                view;
+
+        var years = function (d) {
+            return d.year;
+        };
+
+
+        var circle = svg.selectAll("circle")
+                .data(nodes)
+                .enter()
+                .append("circle")
+                .attr("class", function (d) {
+                    return d.parent ? d.children ? "node" : "node node_leaf" : "node node_root";
+                })
+                .style("fill", function (d) {
+                    return d.children ? color(d.depth) : null;
+                })
+                .on("click", function (d) {
+                    if (focus !== d) zoom(d), d3.event.stopPropagation();
+                })
+                .on("mouseover", tip.show)
+                .on("mouseout", tip.hide);
+
+        var text = svg.selectAll("text")
+                .data(nodes)
+                .enter().append("text")
+                .attr("class", "label")
+                .style("fill-opacity", function (d) {
+                    return d.parent === root ? 3 : 0;
+                })
+                .style("display", function (d) {
+                    return d.parent === root ? "inline" : "none";
+                })
+                //.text(function(d) { return d.year + ": " + d.size + " times" ; });
+                .text(years);
+
+        // Zoom
+
+        var node = svg.selectAll("circle, text");
+
+        d3.select("body")
+                .style("background", color(-1))
+                .on("click", function () {
+                    zoom(root);
+                });
+
+        zoomTo([root.x, root.y, root.r * 2 + margin]);
+
+        function zoom(d) {
+            var focus0 = focus;
+            focus = d;
+
+            var transition = d3.transition()
+                    .duration(d3.event.altKey ? 7500 : 750)
+                    .tween("zoom", function (d) {
+                        var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
+                        return function (t) {
+                            zoomTo(i(t));
+                        };
+                    });
+
+            transition.selectAll("text")
+                    .filter(function (d) {
+                        return d.parent === focus || this.style.display === "inline";
+                    })
+                    .style("fill-opacity", function (d) {
+                        return d.parent === focus ? 1 : 0;
+                    })
+                    .each("start", function (d) {
+                        if (d.parent === focus) this.style.display = "inline";
+                    })
+                    .each("end", function (d) {
+                        if (d.parent !== focus) this.style.display = "none";
+                    });
+        }
+
+        function zoomTo(v) {
+            var k = diameter / v[2];
+            view = v;
+            node.attr("transform", function (d) {
+                return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")";
+            });
+            circle.attr("r", function (d) {
+                return d.r * k;
+            });
+        }
+
+    });
+
+    /*    function colleges();
+     ;*/
+
+    function greaterThanOne() {
+        newData = nodes.filter(function (d) {
+            return d.size > 1;
+        });
+        update(newData);
+    }
+
+    d3.select(self.frameElement).style("height", diameter + "px");
+
+</script>
