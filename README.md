@@ -22,7 +22,7 @@ _Update notice:_ Per Dr. Buchel's advice, added .style("fill-opacity", .5) to th
 
 http://myweb.fsu.edu/aglerum/LibJuice-D3-Course/week3_project.html
 
-### Week 4 Assignment Preview -- WORK IN PROGRESS!
-_Note:_ This project is not yet complete. The tool tips and zoom functions are solely browser-based and not intentionally coded. Goals for this project are filters to display the data by college, department, or year as well as stylized tool tips and a zoom slider.
+### Week 4 Assignment Preview
+_Update notice:_ This is the final project with tooltips and zoom.
 
-http://myweb.fsu.edu/aglerum/LibJuice-D3-Course/week4_project_beta.html
+http://myweb.fsu.edu/aglerum/LibJuice-D3-Course/week4_project.html
